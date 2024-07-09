@@ -1,0 +1,4 @@
+1.setting up database and performing CRUD OPERATIONS
+1.1 get /listings to view all listings
+    get /listings/:id (show route) specific listing ka data view 
+    show.ejs num.toLocalString(en-in) commas aajyenge istand
