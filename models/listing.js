@@ -10,15 +10,14 @@
     },
     description : String,
     image: {
+        url: {
+            type: String,
+            default: "https://images.unsplash.com/photo-1719861032503-225fac307c59?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
         filename: {
             type: String,
             default: "listingimage"
         },
-        url: {
-            type: String,
-            required: true,
-            default: "https://images.unsplash.com/photo-1719861032503-225fac307c59?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        }
     },
     price: Number,
     location: String,

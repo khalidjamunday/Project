@@ -1,12 +1,18 @@
+//jo package ka naame req ke andar wo hi 
 const express=require("express");
 const app =express();
 const mongoose  = require("mongoose");
 const listing = require("./models/listing");//../parent folder curr fold ka
 const path = require("path");
+const methodOverride = require("method-override");
+const ejsmate = require("ejs-mate");
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({extended:true}));//converts url enc data of form to js object(can be acc by req.body) wo this req.body undefined
+app.use(methodOverride("_method"));
+app.engine("ejs",ejsmate);
+app.use(express.static(path.join(__dirname,"/public")));
 
 const MONGO_URL="mongodb://127.0.0.1:27017/CozyNest";
 
@@ -43,7 +49,7 @@ app.get("/listings/new",(req,res)=>{
 //SHOW ROUTE
 app.get("/listings/:id",async(req,res)=>{
     let {id} = req.params;//....DETSTRUCTING
-    const listings = await listing.findById(id);
+    const listings = await listing.findById(id);//toh obj aajayega idhar se
     res.render("listings/show.ejs",{data : listings});//key value both same {listing}
 })
 
@@ -51,7 +57,30 @@ app.get("/listings/:id",async(req,res)=>{
 //data send kr rha hu to db async
 app.post("/listings",async(req,res)=>{
     const newlisting = new listing(req.body.listing);
-    await newlisting.save();
+    await newlisting.save();//see ss
+    res.redirect("/listings");
+})
+
+//EDIT ROUTE
+app.get("/listings/:id/edit",async (req,res)=>{
+    let {id} = req.params;
+    let Listing = await listing.findById(id);
+    res.render("listings/edit.ejs",{Listing})
+});
+
+//UPDATE ROUTE
+app.put("/listings/:id",async(req,res)=>{
+    let {id} = req.params;  // or const listingId = req.params.id; req params also a obj in itself
+    //other method {}
+    await listing.findByIdAndUpdate(id,{...req.body.listing});//find that obj in array of obj by id 
+    res.redirect(`/listings/${id}`);
+})
+
+//DELETE ROUTE
+app.delete("/listings/:id",async(req,res)=>{
+    let {id} = req.params;
+    let dellisting = await listing.findByIdAndDelete(id);
+    console.log(dellisting);
     res.redirect("/listings");
 })
 

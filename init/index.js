@@ -28,5 +28,5 @@ async function initdb(){
     await listing.insertMany(data);//param array of obj
     console.log("data was intialized");
 };
-
+//is file ko run kro data initialized..(do check later)
 initdb();
